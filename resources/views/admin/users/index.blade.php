@@ -38,10 +38,14 @@
                                     <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-success btn-sm">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <a href="{{ route('admin.users.destroy', $user->id) }}"
-                                       class="btn btn-danger btn-sm">
-                                        <i class="fas fa-trash"></i>
-                                    </a>
+                                    @if(auth()->id() != 1 || auth()->id() != $user->id)
+                                        <a href="#"
+                                           data-url="{{ route('admin.users.destroy', $user->id) }}"
+                                           data-id="{{$user->id}}"
+                                           class="btn btn-danger btn-sm delete-button">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
@@ -57,3 +61,38 @@
         </div>
     </div>
 @endsection
+
+@push('js')
+    <script>
+        $('.delete-button').on('click', function (e) {
+            e.preventDefault();
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: $(this).data('url'),
+                        type: 'POST',
+                        data: {
+                            _method: 'DELETE',
+                            _token: '{{ csrf_token() }}'
+                        },
+                        success: function (response) {
+                            Swal.fire("Deleted!", response.message, "success");
+                            location.reload();
+                        },
+                        error: function (xhr) {
+                            Swal.fire("Error!", "An error occurred while deleting the user.", "error");
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+@endpush

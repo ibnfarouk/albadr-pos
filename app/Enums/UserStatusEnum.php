@@ -11,8 +11,8 @@ enum UserStatusEnum: int
     public function label(): string
     {
         return match($this) {
-            UserStatusEnum::Active => 'Active',
-            UserStatusEnum::Inactive => 'Inactive',
+            UserStatusEnum::Active => __('trans.active'),
+            UserStatusEnum::Inactive => __('trans.inactive'),
         };
     }
 

@@ -51,15 +51,24 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $user = User::findOrFail($id);
+        $userStatuses = UserStatusEnum::labels();
+        return view('admin.users.edit', compact('user', 'userStatuses'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UserRequest $request, string $id)
     {
-        //
+        $data = $request->validated();
+        if (empty($data['password'])) {
+            unset($data['password']);
+        }
+        $user = User::findOrFail($id);
+        $user->update($data);
+        session()->flash('success', 'User updated successfully.');
+        return redirect()->route('admin.users.index');
     }
 
     /**
@@ -67,6 +76,11 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $user = User::findOrFail($id);
+        $user->delete();
+        return response()->json([
+            'status' => 'success',
+            'message' => 'User deleted successfully.'
+        ]);
     }
 }
