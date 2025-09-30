@@ -45,17 +45,3 @@ function something()
 {
     // ..
 }
-<<<<<<< Updated upstream
-=======
-
-| # php artisan pest:run
-| # php artisan test
-| # php artisan pest:run --watch
-| # php artisan pest:run --watch --filter=ExampleTest
-| # php artisan pest:run --watch --filter=ExampleTest --stop-on-failure
-| # php artisan pest:run --watch --filter=ExampleTest --stop-on-failure --stop-on-error
-| # php artisan pest:run --watch --filter=ExampleTest --stop-on-failure --stop-on-error --stop-on-success
-| # php artisan pest:run --watch --filter=ExampleTest --stop-on-failure --stop-on-error --stop-on-success --stop-on-warning
-| # php artisan pest:run --watch --filter=ExampleTest --stop-on-failure --stop-on-error --stop-on-success --stop-on-warning --stop-on-notice
-| # php artisan pest:run --watch --filter=ExampleTest --stop-on-failure --stop-on-error --stop-on-success --stop-on-warning --stop-on-notice --stop-on-deprecate
->>>>>>> Stashed changes
