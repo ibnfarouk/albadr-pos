@@ -13,6 +13,7 @@ use App\Models\Safe;
 use App\Models\Unit;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\Request;
 
 class SaleController extends Controller
 {
