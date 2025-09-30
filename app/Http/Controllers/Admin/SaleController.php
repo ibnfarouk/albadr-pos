@@ -24,3 +24,6 @@ class SaleController extends Controller
         return view('admin.sales.create', compact('clients', 'safes', 'units', 'items'));
     }
 }
+
+
+//test elnagar//
