@@ -137,7 +137,7 @@
                             <table class="table table-bordered">
                                 <thead>
                                 <tr>
-                                    <th style="width: 40px">#</th>
+                                    <th scope="col" style="width: 40px">#</th>
                                     <th>Name</th>
                                     <th>Price</th>
                                     <th>Qnt</th>
@@ -174,11 +174,15 @@
         var totalPrice = 0;
         $("#add_item").on('click', function (e) {
             e.preventDefault();
-            let itemID = $("#item_id").val();
-            let itemName = $("#item_id option:selected").text()
-            let itemPrice = $("#item_id option:selected").data('price');
-            var itemQty = $("#qty").val();
-            let itemNotes = $("#notes").val();
+            let item = $("#item_id");
+            let itemID = item.val();
+            let selectedItem = $("#item_id option:selected");
+            let itemName = selectedItem.text()
+            let itemPrice = selectedItem.data('price');
+            let qnt = $("#qty")
+            var itemQty = qnt.val();
+            let notes = $("#notes")
+            let itemNotes = notes.val();
             let itemTotal = itemPrice * itemQty;
 
             // validate inputs : item chosen , qnt , qnt > 0 , qnt <= available qnt
@@ -191,7 +195,7 @@
                 })
                 return;
             }
-            if (!itemQty || itemQty <= 0 || itemQty > $("#item_id option:selected").data('quantity')) {
+            if (!itemQty || itemQty <= 0 || itemQty > selectedItem.data('quantity')) {
                 // sweelalet error
                 Swal.fire({
                     icon: 'error',
@@ -201,12 +205,6 @@
                 return;
             }
 
-            console.log("clicked");
-            console.log(itemID)
-            console.log(itemName)
-            console.log(itemPrice)
-            console.log(itemQty)
-            console.log(itemNotes)
             $("#items_list").append('' +
                 '<tr>' +
                 '<td>' + counter + '</td>' +
@@ -221,9 +219,9 @@
             totalPrice += itemTotal;
             $("#total_price").text(totalPrice);
 
-            $("#item_id").val("").trigger('change')
-            $("#qty").val("")
-            $("#notes").val("")
+            item.val("").trigger('change')
+            qnt.val("")
+            notes.val("")
         })
     </script>
 @endpush
