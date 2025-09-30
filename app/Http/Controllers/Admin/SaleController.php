@@ -18,7 +18,8 @@ class SaleController extends Controller
     public function create()
     {
         $clients = Client::all();
-        $safes = Safe::where('status', SafeStatusEnum::active)->get(); //todo : from settings
+        //todo : from settings
+        $safes = Safe::where('status', SafeStatusEnum::active)->get();
         $units = Unit::where('status', UnitStatusEnum::active)->get();
         $items = Item::where('status', ItemStatusEnum::active)->get();
         return view('admin.sales.create', compact('clients', 'safes', 'units', 'items'));
