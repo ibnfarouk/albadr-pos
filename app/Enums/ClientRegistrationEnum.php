@@ -2,25 +2,25 @@
 
 namespace App\Enums;
 
-enum UserStatusEnum: int
+enum ClientRegistrationEnum: int
 {
-    case active = 1;
-    case inactive = 2;
+    case pos = 1;
+    case app = 2;
 
 
     public function label(): string
     {
         return match($this) {
-            UserStatusEnum::active => __('trans.active'),
-            UserStatusEnum::inactive => __('trans.inactive'),
+            ClientRegistrationEnum::pos => __('trans.pos'),
+            ClientRegistrationEnum::app => __('trans.app'),
         };
     }
 
     public function style()
     {
         return match($this) {
-            UserStatusEnum::active => 'success',
-            UserStatusEnum::inactive => 'danger',
+            ClientRegistrationEnum::pos => 'success',
+            ClientRegistrationEnum::app => 'info',
         };
     }
 

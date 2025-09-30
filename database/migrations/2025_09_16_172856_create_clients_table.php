@@ -17,6 +17,7 @@ class CreateClientsTable extends Migration {
 			$table->string('address');
 			$table->decimal('balance', 12,2);
 			$table->tinyInteger('status');
+            $table->tinyInteger('registered_via')->default(\App\Enums\ClientRegistrationEnum::pos);
 		});
 	}
 

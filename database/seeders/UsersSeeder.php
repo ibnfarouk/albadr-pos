@@ -20,9 +20,9 @@ class UsersSeeder extends Seeder
             'username' => 'admin',
             'password' => bcrypt('123123'),
             'full_name' => 'Administrator',
-            'status' => UserStatusEnum::Active->value,
+            'status' => UserStatusEnum::active->value,
         ]);
 
-        User::factory(5000)->create();
+        User::factory(20)->create();
     }
 }

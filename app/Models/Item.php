@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Item extends Model
 {
+    use HasFactory;
 
     protected $table = 'items';
     public $timestamps = true;
@@ -14,16 +16,13 @@ class Item extends Model
     use SoftDeletes;
 
     protected $dates = ['deleted_at'];
-    protected $fillable = array('name', 'item_code', 'description', 'price', 'quantity', 'is_shown_in_store', 'minimum_stock');
+    protected $fillable = array(
+        'name', 'item_code', 'description', 'price', 'quantity', 'is_shown_in_store', 'minimum_stock', 'status'
+    );
 
     public function unit()
     {
         return $this->belongsTo('App\Models\Unit');
-    }
-
-    public function sales()
-    {
-        return $this->belongsToMany('App\Models\Sale');
     }
 
     public function category()

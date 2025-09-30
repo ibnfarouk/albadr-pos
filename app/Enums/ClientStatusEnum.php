@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum UserStatusEnum: int
+enum ClientStatusEnum: int
 {
     case active = 1;
     case inactive = 2;
@@ -11,16 +11,16 @@ enum UserStatusEnum: int
     public function label(): string
     {
         return match($this) {
-            UserStatusEnum::active => __('trans.active'),
-            UserStatusEnum::inactive => __('trans.inactive'),
+            ClientStatusEnum::active => __('trans.active'),
+            ClientStatusEnum::inactive => __('trans.inactive'),
         };
     }
 
     public function style()
     {
         return match($this) {
-            UserStatusEnum::active => 'success',
-            UserStatusEnum::inactive => 'danger',
+            ClientStatusEnum::active => 'success',
+            ClientStatusEnum::inactive => 'danger',
         };
     }
 

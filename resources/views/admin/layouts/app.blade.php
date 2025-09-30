@@ -15,6 +15,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="{{ asset('adminlte') }}/plugins/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('adminlte/plugins/sweetalert2/sweetalert2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('adminlte/plugins/select2/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('adminlte/plugins/jquery-ui/jquery-ui.min.css') }}">
     <!-- Theme style -->
     @if(app()->getLocale() == 'ar')
         <link rel="stylesheet" href="{{ asset('adminlte/css/adminlte.min.css') }}">
@@ -80,8 +82,25 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="{{ asset('adminlte') }}/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 <script src="{{ asset('adminlte/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+<script src="{{ asset('adminlte/plugins/select2/js/select2.full.min.js') }}"></script>
+<script src="{{ asset('adminlte/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
 <!-- AdminLTE App -->
 <script src="{{ asset('adminlte') }}/js/adminlte.min.js"></script>
+<script src="{{ asset('adminlte/js/custom.js') }}"></script>
+<script>
+    $(document).ready(function() {
+        $('.select2').select2({
+            placeholder: "{{ __('trans.choose') }}"
+        });
+    });
+</script>
+<script>
+    $( function() {
+        $( ".datepicker" ).datepicker({
+            dateFormat: 'yy-mm-dd',
+        });
+    } );
+</script>
 @stack('js')
 </body>
 </html>
