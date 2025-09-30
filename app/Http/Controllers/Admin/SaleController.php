@@ -11,10 +11,15 @@ use App\Models\Client;
 use App\Models\Item;
 use App\Models\Safe;
 use App\Models\Unit;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
 class SaleController extends Controller
 {
+    /**
+     * @return Factory|View|\Illuminate\View\View
+     */
     public function create()
     {
         $clients = Client::all();
