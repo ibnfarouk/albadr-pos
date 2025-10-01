@@ -1,0 +1,43 @@
+/* Font Awesome Icons Fix */
+.fa, .fas, .far, .fab {
+    font-family: "Font Awesome 5 Free", "Font Awesome 5 Brands" !important;
+    font-weight: 900 !important;
+    font-style: normal !important;
+    font-variant: normal !important;
+    text-rendering: auto !important;
+    line-height: 1 !important;
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
+}
+
+.far {
+    font-weight: 400 !important;
+}
+
+.fab {
+    font-family: "Font Awesome 5 Brands" !important;
+    font-weight: 400 !important;
+}
+
+/* Specific icon fixes */
+.fa-bars:before { content: "\f0c9"; }
+.fa-search:before { content: "\f002"; }
+.fa-comments:before { content: "\f086"; }
+.fa-bell:before { content: "\f0f3"; }
+.fa-expand-arrows-alt:before { content: "\f31e"; }
+.fa-chart-line:before { content: "\f201"; }
+.fa-users:before { content: "\f0c0"; }
+.fa-circle:before { content: "\f111"; }
+.fa-angle-left:before { content: "\f104"; }
+.fa-times:before { content: "\f00d"; }
+.fa-star:before { content: "\f005"; }
+.fa-clock:before { content: "\f017"; }
+.fa-envelope:before { content: "\f0e0"; }
+.fa-file:before { content: "\f15b"; }
+.fa-tags:before { content: "\f02c"; }
+.fa-plus:before { content: "\f067"; }
+.fa-save:before { content: "\f0c7"; }
+.fa-edit:before { content: "\f044"; }
+.fa-eye:before { content: "\f06e"; }
+.fa-trash:before { content: "\f1f8"; }
+.fa-arrow-left:before { content: "\f060"; }
