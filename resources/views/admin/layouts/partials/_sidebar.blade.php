@@ -54,6 +54,14 @@
                         </p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.categories.index') }}" class="nav-link @if(request()->is('admin/categories*')) active @endif">
+                        <i class="nav-icon fas fa-tags"></i>
+                        <p>
+                            @lang('trans.categories')
+                        </p>
+                    </a>
+                </li>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->
