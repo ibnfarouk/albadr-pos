@@ -1,4 +1,20 @@
-/* Font Awesome Icons Fix */
+/*!
+ * Font Awesome Icons Fix - إصلاح مشكلة الأيقونات المفقودة
+ * 
+ * هذا الملف يحل مشكلة ظهور المربعات البيضاء بدلاً من الأيقونات
+ * المشكلة تحدث بسبب عدم تحميل ملفات Font Awesome بشكل صحيح
+ * 
+ * الحلول المطبقة:
+ * - إعادة تعريف font-family للأيقونات
+ * - تحديد font-weight الصحيح
+ * - تحسين جودة عرض الأيقونات
+ * - إضافة تعريفات محددة للأيقونات المستخدمة
+ * 
+ * @author Adham
+ * @version 1.0
+ */
+
+/* إعدادات أساسية لجميع أيقونات Font Awesome */
 .fa, .fas, .far, .fab {
     font-family: "Font Awesome 5 Free", "Font Awesome 5 Brands" !important;
     font-weight: 900 !important;
@@ -19,25 +35,33 @@
     font-weight: 400 !important;
 }
 
-/* Specific icon fixes */
-.fa-bars:before { content: "\f0c9"; }
-.fa-search:before { content: "\f002"; }
-.fa-comments:before { content: "\f086"; }
-.fa-bell:before { content: "\f0f3"; }
-.fa-expand-arrows-alt:before { content: "\f31e"; }
-.fa-chart-line:before { content: "\f201"; }
-.fa-users:before { content: "\f0c0"; }
-.fa-circle:before { content: "\f111"; }
-.fa-angle-left:before { content: "\f104"; }
-.fa-times:before { content: "\f00d"; }
-.fa-star:before { content: "\f005"; }
-.fa-clock:before { content: "\f017"; }
-.fa-envelope:before { content: "\f0e0"; }
-.fa-file:before { content: "\f15b"; }
-.fa-tags:before { content: "\f02c"; }
-.fa-plus:before { content: "\f067"; }
-.fa-save:before { content: "\f0c7"; }
-.fa-edit:before { content: "\f044"; }
-.fa-eye:before { content: "\f06e"; }
-.fa-trash:before { content: "\f1f8"; }
-.fa-arrow-left:before { content: "\f060"; }
+/* تعريفات محددة للأيقونات المستخدمة في التطبيق */
+
+/* أيقونات القائمة الجانبية */
+.fa-bars:before { content: "\f0c9"; }              /* أيقونة القائمة (الهامبرغر) */
+.fa-chart-line:before { content: "\f201"; }        /* أيقونة المبيعات */
+.fa-users:before { content: "\f0c0"; }             /* أيقونة المستخدمين */
+.fa-tags:before { content: "\f02c"; }              /* أيقونة الفئات */
+
+/* أيقونات الشريط العلوي */
+.fa-search:before { content: "\f002"; }            /* أيقونة البحث */
+.fa-comments:before { content: "\f086"; }          /* أيقونة الرسائل */
+.fa-bell:before { content: "\f0f3"; }              /* أيقونة الإشعارات */
+.fa-expand-arrows-alt:before { content: "\f31e"; } /* أيقونة التوسيع */
+
+/* أيقونات النماذج والعمليات */
+.fa-plus:before { content: "\f067"; }              /* أيقونة الإضافة */
+.fa-save:before { content: "\f0c7"; }              /* أيقونة الحفظ */
+.fa-edit:before { content: "\f044"; }              /* أيقونة التعديل */
+.fa-eye:before { content: "\f06e"; }               /* أيقونة العرض */
+.fa-trash:before { content: "\f1f8"; }             /* أيقونة الحذف */
+.fa-arrow-left:before { content: "\f060"; }        /* أيقونة العودة */
+
+/* أيقونات أخرى */
+.fa-circle:before { content: "\f111"; }            /* أيقونة الدائرة */
+.fa-angle-left:before { content: "\f104"; }        /* أيقونة السهم الأيسر */
+.fa-times:before { content: "\f00d"; }             /* أيقونة الإغلاق */
+.fa-star:before { content: "\f005"; }              /* أيقونة النجمة */
+.fa-clock:before { content: "\f017"; }             /* أيقونة الساعة */
+.fa-envelope:before { content: "\f0e0"; }          /* أيقونة الرسالة */
+.fa-file:before { content: "\f15b"; }              /* أيقونة الملف */
