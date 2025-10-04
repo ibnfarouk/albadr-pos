@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Enums\UnitStatusEnum;
+use App\Http\Requests\Admin\UpdateUnitRequest;
 use App\Models\Unit;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreUnitRequest;
@@ -37,7 +38,7 @@ class UniteController extends Controller
         return view('admin.unites.edit', compact('unit'));
     }
 
-    public function update(StoreUnitRequest $request, $id)
+    public function update(UpdateUnitRequest $request, $id)
     {
         $unit = Unit::findOrFail($id);
         $unit->update($request->validated());
