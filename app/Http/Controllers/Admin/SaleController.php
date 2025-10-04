@@ -30,12 +30,3 @@ class SaleController extends Controller
         return view('admin.sales.create', compact('clients', 'safes', 'units', 'items'));
     }
 }
-
-// test from units
-
-// test from sales
-
-
-// main
-  // dev
-    // feature/new-feature
