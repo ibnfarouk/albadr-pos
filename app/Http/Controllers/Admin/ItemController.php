@@ -60,7 +60,7 @@ class ItemController extends Controller
                 ]);
             }
         }
-        return to_route('admin.items.index')->with('add_item', 'Item Added Successfully!');
+        return to_route('admin.items.index')->with('success', 'Item created successfully.');
     }
 
     /**
@@ -124,7 +124,7 @@ class ItemController extends Controller
                 ]);
             }
         }
-        return to_route('admin.items.index')->with('update_item', 'Item Updated Successfully!');
+        return to_route('admin.items.index')->with('success', 'Item updated successfully.');
     }
 
     /**
