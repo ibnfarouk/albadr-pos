@@ -1,15 +1,15 @@
 @extends('admin.layouts.app',[
-    'pageName'=>'Items Page',
+    'pageName'=> __('trans.items'),
     ])
 @section('content')
     <div class="row">
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Items List</h3>
+                    <h3 class="card-title">@lang('trans.items_list')</h3>
                     <div class="card-tools">
                         <a href="{{ route('admin.items.create') }}" class="btn btn-primary btn-sm">
-                            <i class="fas fa-plus"></i> Create
+                            <i class="fas fa-plus"></i> @lang('trans.create')
                         </a>
                     </div>
                 </div>
@@ -20,16 +20,16 @@
                         <thead>
                         <tr>
                             <th style="width: 10px">#</th>
-                            <th style="width: 50px">Name</th>
-                            <th>Item Code</th>
-                            <th style="width: 200px">Description</th>
-                            <th>Price</th>
-                            <th style="width: 10px">Quantity</th>
-                            <th style="width: 10px">M.Stock</th>
-                            <th style="width: 50px">Category</th>
-                            <th>Unit</th>
-                            <th style="width: 10px">Show In Store</th>
-                            <th>Action</th>
+                            <th style="width: 50px">@lang('trans.name')</th>
+                            <th>@lang('trans.item_Code')</th>
+                            <th style="width: 200px">@lang('trans.description')</th>
+                            <th>@lang('trans.price')</th>
+                            <th style="width: 10px">@lang('trans.quantity')</th>
+                            <th style="width: 10px">@lang('trans.m.stock')</th>
+                            <th style="width: 50px">@lang('trans.category')</th>
+                            <th>@lang('trans.unit')</th>
+                            <th style="width: 10px">@lang('trans.show_in_store')</th>
+                            <th>@lang('trans.action')</th>
 
                         </tr>
                         </thead>
@@ -47,16 +47,16 @@
                                     <td>{{ $item->unit->name }}</td>
                                     @if($item->is_shown_in_store==1)
                                         <td>
-                                            <span class="badge bg-success">Show</span>
+                                            <span class="badge bg-success">@lang('trans.show')</span>
                                         </td>
                                     @else
                                         <td>
-                                            <span class="badge bg-danger">Hide</span>
+                                            <span class="badge bg-danger">@lang('trans.hide')</span>
                                         </td>
                                     @endif
                                     <td>
-                                        <a href="{{route('admin.items.show',$item->id)}}" class="btn btn-sm btn-info">View</a>
-                                        <a href="{{  route('admin.items.edit',$item->id) }}" class="btn btn-sm btn-info">Edit</a>
+                                        <a href="{{route('admin.items.show',$item->id)}}" class="btn btn-sm btn-info">@lang('trans.view')</a>
+                                        <a href="{{  route('admin.items.edit',$item->id) }}" class="btn btn-sm btn-info">@lang('trans.edit')</a>
                                             <a href="#"
                                                 data-url="{{ route('admin.items.destroy', $item->id) }}"
                                                 data-id="{{$item->id}}"
@@ -71,7 +71,7 @@
                 </div>
                 <!-- /.card-body -->
                 <div class="card-footer clearfix">
-                    {{ $users->links() }}
+                    {{ $items->links() }}
                 </div>
             </div>
             <!-- /.card -->

@@ -55,11 +55,11 @@
                     </a>
                 </li>
 
-                   <li class="nav-item">
+                <li class="nav-item">
                     <a href="{{ route('admin.items.index') }}" class="nav-link">
                         <i class="nav-icon fas fa-tags"></i>
                         <p>
-                            Items
+                            @lang('trans.items')
                         </p>
                     </a>
                 </li>
