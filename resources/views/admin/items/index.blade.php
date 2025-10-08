@@ -43,8 +43,8 @@
                                     <td>{{ $item->price }}</td>
                                     <td>{{ $item->quantity }}</td>
                                     <td>{{ $item->minimum_stock}}</td>
-                                    <td>{{ $item->category->name }}</td>
-                                    <td>{{ $item->unit->name }}</td>
+                                    <td>{{ $item->category?->name  ?? 'no category' }}</td>
+                                    <td>{{ $item->unit?->name ??  'no unit'}}</td>
                                     @if($item->is_shown_in_store==1)
                                         <td>
                                             <span class="badge bg-success">@lang('trans.show')</span>
