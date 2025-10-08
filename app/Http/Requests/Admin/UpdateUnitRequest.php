@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Admin;
 
+use App\Enums\UnitStatusEnum;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateUnitRequest extends FormRequest
@@ -21,9 +22,12 @@ class UpdateUnitRequest extends FormRequest
      */
     public function rules(): array
     {
+        $Enum = UnitStatusEnum::class;
         return [
             'name' => 'required|string|max:255|unique:units,name,' . $this->route('unit'),
-            'status' => 'required|in:1,2',
+            'status' => $UnitStatusEnum::labels(),
+
+
         ];
     }
 }

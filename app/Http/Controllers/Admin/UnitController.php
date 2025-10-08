@@ -8,13 +8,14 @@ use App\Models\Unit;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreUnitRequest;
 
-class UniteController extends Controller
+class UnitController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        $units = Unit::paginate(25);
         return view('admin.unites.index');
     }
 
@@ -28,7 +29,7 @@ class UniteController extends Controller
     {
         Unit::create($request->validated());
         session()->flash('success', 'Unit created successfully.');
-        return redirect()->route('admin.unites.index');
+        return redirect()->route('admin.units.index');
     }
 
     public function edit($id)
@@ -43,20 +44,20 @@ class UniteController extends Controller
         $unit = Unit::findOrFail($id);
         $unit->update($request->validated());
         session()->flash('success', 'Unit updated successfully.');
-        return redirect()->route('admin.unites.index');
+        return redirect()->route('admin.units.index');
     }
 
     public function destroy($id)
     {
         $unit = Unit::findOrFail($id);
 
-        if ($unit->items()->count() > 0) {
+        if ($unit->items()->count()) {
             session()->flash('error', 'Cannot delete unit with associated items.');
-            return redirect()->route('admin.unites.index');
+            return redirect()->route('admin.units.index');
         }
 
         $unit->delete();
         session()->flash('success', 'Unit deleted successfully.');
-        return redirect()->route('admin.unites.index');
+        return redirect()->route('admin.units.index');
     }
 }
