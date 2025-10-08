@@ -16,13 +16,13 @@ class UnitController extends Controller
     public function index()
     {
         $units = Unit::paginate(25);
-        return view('admin.unites.index');
+        return view('admin.units.index');
     }
 
     public function create()
     {
         $uniteStatuses = UnitStatusEnum::labels();
-        return view('admin.unites.create');
+        return view('admin.units.create');
     }
 
     public function store(StoreUnitRequest $request)
@@ -36,7 +36,7 @@ class UnitController extends Controller
     {
         $unit = Unit::findOrFail($id);
         $uniteStatuses = UnitStatusEnum::labels();
-        return view('admin.unites.edit', compact('unit'));
+        return view('admin.units.edit', compact('unit'));
     }
 
     public function update(UpdateUnitRequest $request, $id)
