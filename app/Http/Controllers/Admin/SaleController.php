@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\DiscountTypeEnum;
 use App\Enums\ItemStatusEnum;
 use App\Enums\SafeStatusEnum;
 use App\Enums\UnitStatusEnum;
@@ -27,15 +28,15 @@ class SaleController extends Controller
         $safes = Safe::where('status', SafeStatusEnum::active)->get();
         $units = Unit::where('status', UnitStatusEnum::active)->get();
         $items = Item::where('status', ItemStatusEnum::active)->get();
-        return view('admin.sales.create', compact('clients', 'safes', 'units', 'items'));
+        $discountTypes = DiscountTypeEnum::labels();
+        return view(
+            'admin.sales.create',
+            compact('clients', 'safes', 'units', 'items', 'discountTypes')
+        );
+    }
+
+    public function store(Request $request)
+    {
+        dd($request->all());
     }
 }
-
-// test from units
-
-// test from sales
-
-
-// main
-  // dev
-    // feature/new-feature

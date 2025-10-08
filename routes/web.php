@@ -14,6 +14,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         Route::get('/home', [HomeController::class, 'index'])->name('home');
         Route::resource('users', UserController::class);
 
-        Route::get('sales/create', [SaleController::class, 'create'])->name('sales.create');
+        Route::resource('sales', SaleController::class)->only('create', 'store');
     });
 });
