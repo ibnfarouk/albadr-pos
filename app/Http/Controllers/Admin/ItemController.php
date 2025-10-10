@@ -133,6 +133,9 @@ class ItemController extends Controller
     public function destroy(string $id)
     {
         $item = Item::findOrFail($id);
+        if ($item->sales()->exists() || $item->returns()->exists()) {
+            return to_route('admin.items.index')->with('error', 'Cannot delete item with associated sales or returns.');
+        }
         if ($item->mainPhoto) {
             Storage::disk('public')->delete($item->mainPhoto->path);
         }
