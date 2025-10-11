@@ -23,9 +23,10 @@ class UpdateUnitRequest extends FormRequest
     public function rules(): array
     {
         $Enum = UnitStatusEnum::class;
+        $UnitStatusEnum = UnitStatusEnum::class;
         return [
             'name' => 'required|string|max:255|unique:units,name,' . $this->route('unit'),
-            'status' => $UnitStatusEnum::labels(),
+            'status' => 'required|in:' . implode(',', array_column($UnitStatusEnum::cases(), 'value')),
 
 
         ];
