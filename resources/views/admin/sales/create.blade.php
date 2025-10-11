@@ -11,7 +11,7 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <form method="POST" action="{{ route('admin.users.store') }}" id="main-form">
+                    <form method="POST" action="{{ route('admin.sales.store') }}" id="main-form">
                         @csrf
                         <div class="row">
                             <div class="col-sm-6">
@@ -140,9 +140,10 @@
                                     <th scope="col" style="width: 40px">#</th>
                                     <th>Name</th>
                                     <th>Price</th>
-                                    <th>Qnt</th>
-                                    <th>Total</th>
+                                    <th style="width: 120px">Qnt</th>
+                                    <th style="width: 100px">Total</th>
                                     <th>Notes</th>
+                                    <th></th>
                                 </tr>
                                 <tbody id="items_list">
 
@@ -152,8 +153,41 @@
                                     <th colspan="4" class="text-right">Total</th>
                                     <th id="total_price">0</th>
                                 </tr>
+                                <tr>
+                                    <th colspan="4" class="text-right">Discount</th>
+                                    <th id="discount">0</th>
+                                </tr>
+                                <tr>
+                                    <th colspan="4" class="text-right">Net</th>
+                                    <th id="net">0</th>
+                                </tr>
                                 </tfoot>
                             </table>
+                        </div>
+                        <div class="discount-box">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <label>@lang('trans.discount_type')</label>
+                                    @foreach($discountTypes as $discountTypeVal => $discountType)
+                                        <div class="form-check">
+                                            <input class="form-check-input" id="discount{{$discountTypeVal}}" type="radio" name="discount_type"
+                                                   value="{{ $discountTypeVal }}"
+                                                   @if($loop->first) checked @endif>
+                                            <label for="discount{{$discountTypeVal}}" class="form-check-label">{{ $discountType }}</label>
+                                        </div>
+                                    @endforeach
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="notes">@lang('trans.discount_value')</label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="discount_value"
+                                            placeholder="@lang('trans.discount_value')">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -208,20 +242,69 @@
             $("#items_list").append('' +
                 '<tr>' +
                 '<td>' + counter + '</td>' +
-                '<td>' + itemName + '</td>' +
-                '<td>' + itemPrice + '</td>' +
-                '<td>' + itemQty + '</td>' +
+                '<td><span>' + itemName + '</span><input type="hidden" name="items[0][id]" value="'+itemID+'">' +
+                '</td>' +
+                '<td>' + itemPrice +
+                '</td>' +
+                '<td><input type="number" class="form-control" name="items[0][qty]" value="'+itemQty+'">' +
+                '</td>' +
                 '<td>' + itemTotal + '</td>' +
-                '<td>' + itemNotes + '</td>' +
+                '<td>' + itemNotes + '<input type="hidden" name="items[0][notes]">' +
+                '</td>' +
+                '<td><button type="button" class="btn btn-danger btn-sm deleteItem"><i class="fa fa-trash"></i></button></td>' +
                 '</tr>');
             counter++
 
             totalPrice += itemTotal;
+            totalPrice = Math.round((totalPrice + Number.EPSILON) * 100) / 100;
             $("#total_price").text(totalPrice);
+
+            calculateDiscount()
+
 
             item.val("").trigger('change')
             qnt.val("")
             notes.val("")
         })
+
+        $("#discount_value").on('keyup', function (e){
+            e.preventDefault()
+            calculateDiscount()
+        })
+        $('input[name="discount_type"]').on('change', function (e){
+            e.preventDefault()
+            calculateDiscount()
+        })
+
+
+
+        $(document).on('click', '.deleteItem', function (e) {
+            // get the total of the item in the same row
+            let itemTotal = $(this).closest('tr').find('td:nth-child(5)').text();
+            totalPrice -= itemTotal;
+            totalPrice = Math.round((totalPrice + Number.EPSILON) * 100) / 100;
+            $("#total_price").text(totalPrice);
+            calculateDiscount()
+            $(this).closest('tr').remove();
+        })
+
+
+        function calculateDiscount(){
+            let discount = 0;
+            // get discount type using input name
+            let discountType = $('input[name="discount_type"]:checked').val();
+            if (discountType === '{{ \App\Enums\DiscountTypeEnum::fixed->value }}') {
+                discount = parseFloat($("#discount_value").val() || 0);
+            } else {
+                let discountPercent = parseFloat($("#discount_value").val() || 0);
+                discount = (totalPrice * discountPercent) / 100;
+                // round to 2 decimal places
+                discount = Math.round((discount + Number.EPSILON) * 100) / 100;
+            }
+            let net = totalPrice - discount;
+            net = Math.round((net + Number.EPSILON) * 100) / 100;
+            $("#discount").text(discount);
+            $("#net").text(net);
+        }
     </script>
 @endpush
