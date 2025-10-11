@@ -54,6 +54,15 @@
                         </p>
                     </a>
                 </li>
+
+                <li class="nav-item">
+                    <a href="{{ route('admin.items.index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-tags"></i>
+                        <p>
+                            @lang('trans.items')
+                        </p>
+                    </a>
+                </li>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->
