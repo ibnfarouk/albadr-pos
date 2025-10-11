@@ -32,7 +32,7 @@ class Item extends Model
 
     public function mainPhoto()
     {
-        return $this->morphOne('App\Models\File', 'filable')->where('usage','item_photo');
+        return $this->morphOne('App\Models\File', 'fileable')->where('usage','item_photo');
     }
 
     public function gallery()
