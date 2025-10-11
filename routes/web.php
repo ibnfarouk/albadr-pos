@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\SaleController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\ItemController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -13,6 +14,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::group(['middleware' => 'auth'], function () {
         Route::get('/home', [HomeController::class, 'index'])->name('home');
         Route::resource('users', UserController::class);
+        Route::resource('items', ItemController::class);
 
         Route::get('sales/create', [SaleController::class, 'create'])->name('sales.create');
     });
