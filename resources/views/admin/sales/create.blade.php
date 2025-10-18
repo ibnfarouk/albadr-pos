@@ -222,7 +222,7 @@
                                             type="text"
                                             class="form-control"
                                             id="discount_value"
-                                            name="discount"
+                                            name="discount_value"
                                             value="{{ old('discount') }}"
                                             placeholder="@lang('trans.discount_value')">
                                     </div>

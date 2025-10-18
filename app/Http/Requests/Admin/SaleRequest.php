@@ -28,7 +28,7 @@ class SaleRequest extends FormRequest
             'invoice_number' => ['required', 'unique:sales,invoice_number'],
             'safe_id' => ['required', 'exists:safes,id'],
             'discount_type' => ['required'],
-            'discount' => ['nullable', 'numeric'],
+            'discount_value' => ['nullable', 'numeric'],
             'payment_type' => ['required', 'in:'.PaymentTypeEnum::cash->value.','.PaymentTypeEnum::debt->value],
             'payment_amount' => ['required_if:payment_type,'.PaymentTypeEnum::debt->value, 'numeric'],
             'items' => ['required', 'array'],

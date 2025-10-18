@@ -18,6 +18,11 @@ class Sale extends Model
         return $this->morphMany('App\Models\SafeTransaction', 'reference');
     }
 
+    public function clientAccountTransaction()
+    {
+        return $this->morphMany('App\Models\ClientAccountTransaction', 'reference');
+    }
+
     public function client()
     {
         return $this->belongsTo('App\Models\Client');

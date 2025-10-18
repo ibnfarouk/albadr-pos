@@ -6,6 +6,7 @@ use App\Enums\ClientRegistrationEnum;
 use App\Enums\ClientStatusEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Client extends Model
@@ -24,5 +25,15 @@ class Client extends Model
         'registered_via' => ClientRegistrationEnum::class,
         'status' => ClientStatusEnum::class,
     ];
+
+    public function sales()
+    {
+        return $this->hasMany('App\Models\Sale');
+    }
+
+    public function accountTransactions(): HasMany|Client
+    {
+        return $this->hasMany('App\Models\ClientAccountTransaction');
+    }
 
 }
