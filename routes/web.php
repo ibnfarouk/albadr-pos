@@ -3,7 +3,9 @@
 
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\SaleController;
+use App\Http\Controllers\Admin\UnitController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\ItemController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -27,7 +29,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         // مسارات CRUD للفئات (Categories) - النظام الجديد
         Route::resource('categories', CategoryController::class);
 
-        // مسار إنشاء عملية بيع (مخصص)
-        Route::get('sales/create', [SaleController::class, 'create'])->name('sales.create');
+        Route::resource('units', UnitController::class);
+        Route::resource('items', ItemController::class);
+
+        Route::resource('sales', SaleController::class)->only('create', 'store');
     });
 });
