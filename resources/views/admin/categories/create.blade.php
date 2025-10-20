@@ -29,16 +29,6 @@
                     <form action="{{ route('admin.categories.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="card-body">
-                            @if($errors->any())
-                                <div class="alert alert-danger">
-                                    <ul class="mb-0">
-                                        @foreach($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            @endif
-
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -48,8 +38,7 @@
                                                id="name" 
                                                name="name" 
                                                value="{{ old('name') }}" 
-                                               placeholder="@lang('trans.enter_category_name')"
-                                               required>
+                                               placeholder="@lang('trans.enter_category_name')">
                                         @error('name')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -60,10 +49,9 @@
                                         <label for="status">@lang('trans.status') <span class="text-danger">*</span></label>
                                         <select class="form-control @error('status') is-invalid @enderror" 
                                                 id="status" 
-                                                name="status" 
-                                                required>
+                                                name="status">
                                             <option value="">@lang('trans.choose_status')</option>
-                                            @foreach($statuses as $value => $label)
+                                            @foreach($categoryStatus as $value => $label)
                                                 <option value="{{ $value }}" 
                                                         {{ old('status') == $value ? 'selected' : '' }}>
                                                     {{ $label }}

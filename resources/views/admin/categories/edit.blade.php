@@ -26,7 +26,7 @@
                     <div class="card-header">
                         <h3 class="card-title">@lang('trans.edit_category')</h3>
                     </div>
-                    <form action="{{ route('admin.categories.update', $category) }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('admin.categories.update', $category->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="card-body">
@@ -64,7 +64,7 @@
                                                 name="status" 
                                                 required>
                                             <option value="">@lang('trans.choose_status')</option>
-                                            @foreach($statuses as $value => $label)
+                                            @foreach($categoryStatus as $value => $label)
                                                 <option value="{{ $value }}" 
                                                         {{ old('status', $category->status->value) == $value ? 'selected' : '' }}>
                                                     {{ $label }}

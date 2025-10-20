@@ -95,16 +95,13 @@
                                                        class="btn btn-warning btn-sm">
                                                         <i class="fas fa-edit"></i>
                                                     </a>
-                                                    <form action="{{ route('admin.categories.destroy', $category) }}" 
-                                                          method="POST" 
-                                                          style="display: inline-block;"
-                                                          onsubmit="return confirm('@lang('trans.confirm_delete')')">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger btn-sm">
+                                                    <a href="#"
+                                                        data-url="{{ route('admin.categories.destroy', $category->id) }}"
+                                                        data-id="{{$category->id}}"
+                                                        data-name="{{$category->name}}"
+                                                        class="btn btn-danger btn-sm delete-button">
                                                             <i class="fas fa-trash"></i>
-                                                        </button>
-                                                    </form>
+                                                    </a>
                                                 </div>
                                             </td>
                                         </tr>
@@ -127,3 +124,39 @@
     </div>
 </section>
 @endsection
+
+
+@push('js')
+    <script>
+        $('.delete-button').on('click', function (e) {
+            e.preventDefault();
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: $(this).data('url'),
+                        type: 'POST',
+                        data: {
+                            _method: 'DELETE',
+                            _token: '{{ csrf_token() }}'
+                        },
+                        success: function (response) {
+                            Swal.fire("Deleted!", response.message, "success");
+                            location.reload();
+                        },
+                        error: function (xhr) {
+                            Swal.fire("Error!", "An error occurred while deleting the user.", "error");
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+@endpush

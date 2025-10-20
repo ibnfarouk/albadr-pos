@@ -26,7 +26,7 @@
                     <div class="card-header">
                         <h3 class="card-title">@lang('trans.category_information')</h3>
                         <div class="card-tools">
-                            <a href="{{ route('admin.categories.edit', $category) }}" class="btn btn-warning btn-sm">
+                            <a href="{{ route('admin.categories.edit', $category->id) }}" class="btn btn-warning btn-sm">
                                 <i class="fas fa-edit"></i> @lang('trans.edit')
                             </a>
                             <a href="{{ route('admin.categories.index') }}" class="btn btn-secondary btn-sm">
@@ -38,7 +38,7 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="text-center">
-                                    @if($category->photo)
+                                    {{-- @if($category->photo)
                                         <img src="{{ asset('storage/' . $category->photo->path) }}" 
                                              alt="{{ $category->name }}" 
                                              class="img-fluid rounded shadow" 
@@ -48,7 +48,7 @@
                                              style="width: 300px; height: 300px; margin: 0 auto;">
                                             <i class="fas fa-image text-muted fa-5x"></i>
                                         </div>
-                                    @endif
+                                    @endif --}}
                                 </div>
                             </div>
                             <div class="col-md-8">
@@ -61,7 +61,7 @@
                                         <tr>
                                             <td><strong>@lang('trans.status'):</strong></td>
                                             <td>
-                                                <span class="badge badge-{{ $category->status->style() }} badge-lg">
+                                                <span class="badge badge-{{ $category->status->style() }}">
                                                     {{ $category->status->label() }}
                                                 </span>
                                             </td>
@@ -70,7 +70,7 @@
                                             <td><strong>@lang('trans.items_count'):</strong></td>
                                             <td>
                                                 <span class="badge badge-info badge-lg">
-                                                    {{ $category->items->count() }} @lang('trans.items')
+                                                    {{ $items->count() }} @lang('trans.items')
                                                 </span>
                                             </td>
                                         </tr>
@@ -82,7 +82,7 @@
                                             <td><strong>@lang('trans.updated_at'):</strong></td>
                                             <td>{{ $category->updated_at->format('Y-m-d H:i:s') }}</td>
                                         </tr>
-                                        @if($category->photo)
+                                        {{-- @if($category->photo)
                                             <tr>
                                                 <td><strong>@lang('trans.image_info'):</strong></td>
                                                 <td>
@@ -92,7 +92,7 @@
                                                     </small>
                                                 </td>
                                             </tr>
-                                        @endif
+                                        @endif --}}
                                     </tbody>
                                 </table>
                             </div>
@@ -100,7 +100,7 @@
                     </div>
                 </div>
 
-                @if($category->items->count() > 0)
+                @if($items->count() > 0)
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">@lang('trans.items_in_category')</h3>
@@ -118,7 +118,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($category->items as $item)
+                                        @foreach($items as $item)
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $item->name }}</td>

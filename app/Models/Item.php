@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Enums\ItemStatusEnum;
 
 class Item extends Model
 {
@@ -19,6 +20,9 @@ class Item extends Model
     protected $fillable = array(
         'name', 'item_code', 'description', 'price', 'quantity', 'is_shown_in_store', 'minimum_stock', 'status'
     );
+    protected $casts = [
+        'status' => ItemStatusEnum::class,
+    ];
 
     public function unit()
     {
