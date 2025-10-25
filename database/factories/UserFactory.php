@@ -17,7 +17,11 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'full_name' => $this->faker->name(),
+            'username' => $this->faker->unique()->userName(),
+            'email' => $this->faker->unique()->safeEmail(),
+            'password' => bcrypt('password'), // password
+            'status' => \App\Enums\UserStatusEnum::active->value,
         ];
     }
 }

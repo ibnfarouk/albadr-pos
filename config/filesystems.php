@@ -59,6 +59,11 @@ return [
             'throw' => false,
             'report' => false,
         ],
+        'app' => [
+            'driver' => 'local',
+            'root' => app_path().DIRECTORY_SEPARATOR,
+            'visibility' => 'public',
+        ],
 
     ],
 

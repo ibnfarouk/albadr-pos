@@ -11,8 +11,9 @@ class ClientAccountTransaction extends Model
     public $timestamps = true;
 
     protected $fillable = [
-        'type',
-        'amount',
+        'credit',
+        'debit',
+        'balance',
         'description',
         'balance_after',
         'client_id',
@@ -23,8 +24,9 @@ class ClientAccountTransaction extends Model
     ];
 
     protected $casts = [
-        'type' => ClientAccountTransactionTypeEnum::class,
-        'amount' => 'decimal:2',
+        'credit' => 'decimal:2',
+        'debit' => 'decimal:2',
+        'balance' => 'decimal:2',
         'balance_after' => 'decimal:2',
     ];
 
