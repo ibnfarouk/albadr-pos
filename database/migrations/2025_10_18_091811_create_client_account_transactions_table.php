@@ -16,11 +16,12 @@ return new class extends Migration
             $table->timestamps();
             $table->bigInteger('client_id')->unsigned();
             $table->bigInteger('user_id')->unsigned();
-            $table->decimal('amount', 10, 2);
+            $table->decimal('credit', 10, 2);
+            $table->decimal('debit', 10, 2);
+            $table->decimal('balance', 10, 2);
+            $table->decimal('balance_after', 10, 2);
             $table->nullableMorphs('reference');
             $table->text('description');
-            $table->decimal('balance_after', 10, 2);
-            $table->tinyInteger('type');// ClientAccountTransactionTypeEnum
         });
     }
 

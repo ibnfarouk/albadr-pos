@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Enums\ClientAccountTransactionTypeEnum;
 use App\Enums\DiscountTypeEnum;
 use App\Enums\ItemStatusEnum;
 use App\Enums\PaymentTypeEnum;
@@ -17,6 +16,7 @@ use App\Models\Item;
 use App\Models\Safe;
 use App\Models\Sale;
 use App\Models\Unit;
+use App\Services\SafeService;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
@@ -46,9 +46,51 @@ class SaleController extends Controller
         DB::beginTransaction();
         //dd($request->all());
         $sale = auth()->user()->sales()->create($request->validated());// db
+        $total = $this->attachItems($sale, $request);
+        $this->updateSaleTotals($sale, $total, $request);
+
+        // update safe & transaction
+        SafeService::inTransaction(
+            $sale,
+            $sale->paid_amount,
+            'Sale Payment, Invoice #: ' . $sale->invoice_number);
+        $this->updateClientAccountBalance($sale);
+
+        DB::commit();
+        return back();
+    }
+
+    /**
+     * @param Sale $sale
+     * @return void
+     */
+    private function updateClientAccountBalance(Sale $sale): void
+    {
+        $balance = $sale->net_amount - $sale->paid_amount;
+        if ($balance != 0) {
+            // client account update
+            $sale->client->increment('balance', $balance);
+        }
+        //-200 = 1000 - 1200
+        $sale->clientAccountTransaction()->create([
+            'user_id' => auth()->user()->id,
+            'client_id' => $sale->client_id,
+            'credit' => $sale->net_amount,
+            'debit' => $sale->paid_amount,
+            'balance' => $balance,
+            'balance_after' => $sale->client->fresh()->balance,
+            'description' => 'Sale Remaining Amount, Invoice #: ' . $sale->invoice_number,
+        ]);
+    }
+
+    /**
+     * @param SaleRequest $request
+     * @param Sale $sale
+     * @return float
+     */
+    private function attachItems(Sale $sale, SaleRequest $request): float
+    {
         $total = 0;
-        $discount = 0;
-        $remaining = 0;
         foreach ($request->items as $id => $item) {
             $queriedItem = Item::find($id);
             $totalPrice = $queriedItem->price * $item['qty'];
@@ -64,51 +106,45 @@ class SaleController extends Controller
             $queriedItem->decrement('quantity', $item['qty']);
             $total += $totalPrice;
         }
-        if ($request->discount_type == DiscountTypeEnum::percentage->value){
-            $discount = $total * ($request->discount/100);
-        }else{
+        return $total;
+    }
+
+    /**
+     * @param SaleRequest $request
+     * @param float|int $total
+     * @return float|int|mixed
+     */
+    private function calculateDiscount(SaleRequest $request, float|int $total): mixed
+    {
+        if ($request->discount_type == DiscountTypeEnum::percentage->value) {
+            $discount = $total * ($request->discount / 100);
+        } else {
             $discount = $request->discount;
         }
+        return $discount;
+    }
+
+    /**
+     * @param float|int $total
+     * @param SaleRequest $request
+     * @param Sale $sale
+     * @return void
+     */
+    private function updateSaleTotals(Sale $sale, float|int $total, SaleRequest $request): void
+    {
+        $discount = $this->calculateDiscount($request, $total);
         $net = $total - $discount;
-        if ($request->payment_type == PaymentTypeEnum::debt->value){
+        if ($request->payment_type == PaymentTypeEnum::debt->value) {
             $paid = $request->payment_amount;
-        }else{
+        } else {
             $paid = $net;
         }
-        $remaining = $net - $paid;
+        $remaining = $net - $paid; // could be -ve ?
         $sale->total = $total;
         $sale->discount = $discount;
         $sale->net_amount = $net;
         $sale->paid_amount = $paid;
         $sale->remaining_amount = $remaining;
         $sale->save();//db
-        // update safe & transaction
-        if ($paid > 0) {
-            $sale->safe->increment('balance', $paid);
-            $sale->safeTransactions()->create([
-                'user_id' => auth()->user()->id,
-                'type' => SafeTransactionTypeEnum::in,
-                'safe_id' => $request->safe_id,
-                'amount' => $paid,
-                'balance_after' => $sale->safe->fresh()->balance,
-                'description' => 'Sale Payment, Invoice #: ' . $sale->invoice_number,
-            ]);
-        }
-        if ($remaining) {
-            $sale->client->increment('balance', $remaining);
-            $sale->clientAccountTransaction()->create([
-                'user_id' => auth()->user()->id,
-                'type' => ClientAccountTransactionTypeEnum::credit,
-                'client_id' => $request->client_id,
-                'amount' => $remaining,
-                'balance_after' => $sale->client->fresh()->balance,
-                'description' => 'Sale Remaining Amount, Invoice #: ' . $sale->invoice_number,
-            ]);
-        }
-
-        // client account update
-
-        DB::commit();
-        return back();
     }
 }

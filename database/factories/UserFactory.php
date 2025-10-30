@@ -25,12 +25,11 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'username' => fake()->word().fake()->unique()->numberBetween(111111, 999999),
-            'full_name' =>  $this->faker->name(),
-            'email' => fake()->unique()->safeEmail(),
-            'password' => static::$password ??= Hash::make('password'),
-            'remember_token' => Str::random(10),
-            'status' => fake()->randomElement(UserStatusEnum::cases()),
+            'full_name' => $this->faker->name(),
+            'username' => $this->faker->unique()->userName(),
+            'email' => $this->faker->unique()->safeEmail(),
+            'password' => bcrypt('password'), // password
+            'status' => \App\Enums\UserStatusEnum::active->value,
         ];
     }
 
