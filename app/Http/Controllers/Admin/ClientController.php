@@ -44,8 +44,8 @@ class ClientController extends Controller
 
         $client->accountTransactions()->create([
             'user_id' => auth()->id(),
-            'credit' => $balance > 0 ? $balance : 0,
-            'debit' => $balance < 0 ? abs($balance) : 0,
+            'credit' =>  0,
+            'debit' =>0,
             'balance' => $balance,
             'balance_after' => $balance,
             'client_id' => $client->id,
@@ -73,38 +73,10 @@ class ClientController extends Controller
      */
     public function update(ClientRequest $request, string $id)
     {
-        DB::beginTransaction();
         $client = Client::findOrFail($id);
         $client->update($request->validated());
-        $balance = $request->balance ?? 0;
-
-        $transaction = $client->accountTransactions()->first();
-
-        if ($transaction) {
-            $transaction->update([
-                'user_id' => auth()->id(),
-                'credit' => $balance > 0 ? $balance : 0,
-                'debit' => $balance < 0 ? abs($balance) : 0,
-                'balance' => $balance,
-                'balance_after' => $balance,
-                'description' => 'Client Opening Balance',
-            ]);
-        } else {
-            $client->accountTransactions()->create([
-                'user_id' => auth()->id(),
-                'credit' => $balance > 0 ? $balance : 0,
-                'debit' => $balance < 0 ? abs($balance) : 0,
-                'balance' => $balance,
-                'balance_after' => $balance,
-                'description' => 'Client Opening Balance',
-            ]);
-        }
-
-
-        DB::commit();
         session()->flash('success', 'Client updated successfully.');
         return redirect()->route('admin.clients.index');
-
     }
 
     /**

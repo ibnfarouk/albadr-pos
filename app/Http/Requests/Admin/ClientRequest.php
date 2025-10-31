@@ -27,18 +27,18 @@ class ClientRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'email' => [
-                'nullable',
+                'required',
                 'email',
                 'max:255',
                 Rule::unique('clients')->ignore($clientId), 
             ],
             'phone' => [
-                'nullable',
+                'required',
                 'string',
                 'max:20',
                 Rule::unique('clients')->ignore($clientId),
             ],
-            'address' => ['nullable', 'string', 'max:500'],
+            'address' => ['required', 'string', 'max:500'],
             'balance' => ['nullable', 'numeric'],
             'status' => ['required', 'in:' . ClientStatusEnum::active->value . ',' . ClientStatusEnum::inactive->value],
         ];

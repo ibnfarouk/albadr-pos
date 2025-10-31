@@ -12,10 +12,10 @@ class CreateClientsTable extends Migration {
 			$table->timestamps();
 			$table->softDeletes();
 			$table->string('name');
-			$table->string('email')->unique()->nullable();
-			$table->string('phone')->unique()->nullable();
-			$table->string('address')->nullable();
-			$table->decimal('balance', 12,2)->default(0);
+			$table->string('email')->unique();
+			$table->string('phone')->unique();
+			$table->string('address');
+			$table->decimal('balance', 12,2);
 			$table->tinyInteger('status');
             $table->tinyInteger('registered_via')->default(\App\Enums\ClientRegistrationEnum::pos);
 		});
