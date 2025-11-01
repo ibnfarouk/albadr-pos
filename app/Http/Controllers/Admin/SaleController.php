@@ -16,7 +16,9 @@ use App\Models\Item;
 use App\Models\Safe;
 use App\Models\Sale;
 use App\Models\Unit;
+use App\Models\Warehouse;
 use App\Services\SafeService;
+use App\Services\StockManageService;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
@@ -34,10 +36,11 @@ class SaleController extends Controller
         $safes = Safe::where('status', SafeStatusEnum::active)->get();
         $units = Unit::where('status', UnitStatusEnum::active)->get();
         $items = Item::where('status', ItemStatusEnum::active)->get();
+        $warehouses = Warehouse::all();
         $discountTypes = DiscountTypeEnum::labels();
         return view(
             'admin.sales.create',
-            compact('clients', 'safes', 'units', 'items', 'discountTypes')
+            compact('clients', 'safes', 'units', 'items', 'discountTypes', 'warehouses')
         );
     }
 
@@ -50,7 +53,7 @@ class SaleController extends Controller
         $this->updateSaleTotals($sale, $total, $request);
 
         // update safe & transaction
-        SafeService::inTransaction(
+        (new SafeService)->inTransaction(
             $sale,
             $sale->paid_amount,
             'Sale Payment, Invoice #: ' . $sale->invoice_number);
@@ -103,7 +106,8 @@ class SaleController extends Controller
                 ]
             ]);
             // stock update
-            $queriedItem->decrement('quantity', $item['qty']);
+//            $queriedItem->decrement('quantity', $item['qty']);
+            (new StockManageService())->decreaseStock($queriedItem, $request->warehouse_id, $item['qty'], $sale);
             $total += $totalPrice;
         }
         return $total;

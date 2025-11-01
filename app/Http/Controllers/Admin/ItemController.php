@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Warehouse;
+use App\Services\StockManageService;
 use Illuminate\Http\Request;
 use App\Models\Item;
 use App\Models\category;
 use App\Models\unit;
 use App\Http\Requests\Admin\ItemRequest;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class ItemController extends Controller
@@ -28,7 +31,8 @@ class ItemController extends Controller
     {
         $categories = Category::all();
         $units = Unit::all();
-        return view('admin.items.create', compact('categories', 'units'));
+        $warehouses = Warehouse::all();
+        return view('admin.items.create', compact('categories', 'units', 'warehouses'));
     }
 
     /**
@@ -36,6 +40,7 @@ class ItemController extends Controller
      */
     public function store(ItemRequest $request)
     {
+        DB::beginTransaction();
         $item = Item::create($request->validated());
         if ($request->hasFile('photo')) {
             $file = $request->file('photo');
@@ -60,6 +65,8 @@ class ItemController extends Controller
                 ]);
             }
         }
+        (new StockManageService)->initStock($item, $request->warehouse_id, $request->quantity);
+        DB::commit();
         return to_route('admin.items.index')->with('success', 'Item created successfully.');
     }
 

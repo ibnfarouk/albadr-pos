@@ -10,7 +10,8 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <form action="{{ route('admin.items.store') }}" method="POST" enctype="multipart/form-data" >
+                    <form action="{{ route('admin.items.store') }}" method="POST" enctype="multipart/form-data"
+                    id="main-form">
                         @csrf
                         <div class="form-group">
                             <label for="name">@lang('trans.name')</label>
@@ -55,17 +56,6 @@
                             name="price" id="price" value='{{ old('price') }}'
                             placeholder="@lang('trans.enter_price')">
                             @error('price')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                            @enderror
-                        </div>
-                        <div class="form-group">
-                            <label for="quantity">@lang('trans.quantity')</label>
-                            <input type="text" class="form-control @error('quantity') is-invalid @enderror"
-                            name="quantity" id="quantity" value='{{ old('quantity') }}'
-                            placeholder="@lang('trans.enter_quantity')">
-                            @error('quantity')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -157,6 +147,36 @@
                             </div>
                             @error('is_shown_in_store')
                                 <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                        <hr>
+                        <h3>@lang('trans.stock')</h3>
+                        <div class="form-group">
+                            <label for="quantity">@lang('trans.quantity')</label>
+                            <input type="text" class="form-control @error('quantity') is-invalid @enderror"
+                                   name="quantity" id="quantity" value='{{ old('quantity') }}'
+                                   placeholder="@lang('trans.enter_quantity')">
+                            @error('quantity')
+                            <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="warehouse_id">@lang('trans.select_warehouse')</label>
+                            <select id="warehouse_id" name="warehouse_id" class="form-control @error('warehouse_id') is-invalid @enderror">
+                                <option value="">-- @lang('trans.choose_warehouse') --</option>
+                                @foreach ($warehouses as $warehouse)
+                                    <option value="{{ $warehouse->id }}"
+                                        {{ (string) old('warehouse_id') === (string) $warehouse->id ? 'selected' : '' }}>
+                                        {{ $warehouse->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('warehouse_id')
+                            <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
                             @enderror
