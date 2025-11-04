@@ -6,6 +6,8 @@ use App\Http\Controllers\Admin\SaleController;
 use App\Http\Controllers\Admin\UnitController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ItemController;
+use App\Http\Controllers\Admin\ClientController;
+
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -31,6 +33,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 
         Route::resource('units', UnitController::class);
         Route::resource('items', ItemController::class);
+        Route::resource('clients', ClientController::class);
 
         Route::resource('sales', SaleController::class)->only('create', 'store');
     });
