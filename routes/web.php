@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\SaleController;
+use App\Http\Controllers\Admin\Settings\GeneralSettingsController;
 use App\Http\Controllers\Admin\UnitController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ItemController;
@@ -19,5 +20,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         Route::resource('items', ItemController::class);
 
         Route::resource('sales', SaleController::class)->only('create', 'store');
+
+        Route::group(['prefix' => 'settings'], function () {
+            Route::get('general', [GeneralSettingsController::class, 'view'])->name('settings.general.view');
+            Route::put('general', [GeneralSettingsController::class, 'update'])->name('settings.general.update');
+        });
     });
 });
