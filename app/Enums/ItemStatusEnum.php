@@ -16,7 +16,7 @@ enum ItemStatusEnum: int
         };
     }
 
-    public function style()
+    public function style(): string
     {
         return match($this) {
             ItemStatusEnum::active => 'success',
