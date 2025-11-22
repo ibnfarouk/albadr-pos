@@ -30,7 +30,21 @@ class StockManageService
             'quantity_after' => $item->warehouses()->where('itemable_id', $warehouseId)->first()->pivot->quantity,
             'description' => 'Stock decreased from warehouse ID: ' . $warehouseId . ($reference ? ', Reference ID: ' . $reference->id : ''),
         ]);
+    }
 
+    public function increaseStock($item, $warehouseId, $quantity, $reference = null)
+    {
+        $stock = $item->warehouses()->where('itemable_id', $warehouseId)->first();
+        if (!$stock) {
+            $this->initStock($item, $warehouseId, 0);
+        }
+        $item->warehouses()->where('itemable_id', $warehouseId)->increment('quantity', $quantity);
+        $item->warehouseTransactions()->create([
+            'transaction_type' => WarehouseTransactionTypeEnum::add,
+            'quantity' => $quantity,
+            'quantity_after' => $item->warehouses()->where('itemable_id', $warehouseId)->first()->pivot->quantity,
+            'description' => 'Stock increased at warehouse ID: ' . $warehouseId . ($reference ? ', Reference ID: ' . $reference->id : ''),
+        ]);
     }
 
 }

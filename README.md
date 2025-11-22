@@ -1,6 +1,4 @@
-- choose warehouse in sales create
-- update stock of warehouse
-- gard
-- stock_transactions ?
-- initial stock in create item
-- 
+- delete return migrations & model
+- add type to Sale [sale , return]
+- modify sales
+- create return files

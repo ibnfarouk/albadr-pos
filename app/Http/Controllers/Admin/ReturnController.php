@@ -25,14 +25,10 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class SaleController extends Controller
+class ReturnController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('can:list-Sale')->only(['index']);
-        $this->middleware('can:create-Sale')->only(['create', 'store']);
-        $this->middleware('can:edit-Sale')->only(['edit', 'update']);
-        $this->middleware('can:delete-Sale')->only(['destroy']);
     }
 
     /**
@@ -48,7 +44,7 @@ class SaleController extends Controller
         $warehouses = Warehouse::all();
         $discountTypes = DiscountTypeEnum::labels();
         return view(
-            'admin.sales.create',
+            'admin.returns.create',
             compact('clients', 'safes', 'units', 'items', 'discountTypes', 'warehouses')
         );
     }
@@ -56,18 +52,18 @@ class SaleController extends Controller
     public function store(SaleRequest $request)
     {
         DB::beginTransaction();
-        $data = $request->validated();
-        $data['type'] = SaleTypeEnum::sale->value;
         //dd($request->all());
-        $sale = auth()->user()->sales()->create($data);// db
+        $data = $request->validated();
+        $data['type'] = SaleTypeEnum::return->value;
+        $sale = auth()->user()->returns()->create($data);// db
         $total = $this->attachItems($sale, $request);
         $this->updateSaleTotals($sale, $total, $request);
 
         // update safe & transaction
-        (new SafeService)->inTransaction(
+        (new SafeService)->outTransaction(
             $sale,
             $sale->paid_amount,
-            'Sale Payment, Invoice #: ' . $sale->invoice_number);
+            'Sale Return Payment, Invoice #: ' . $sale->invoice_number);
         $this->updateClientAccountBalance($sale);
 
         DB::commit();
@@ -80,7 +76,9 @@ class SaleController extends Controller
      */
     private function updateClientAccountBalance(Sale $sale): void
     {
-        $balance = $sale->net_amount - $sale->paid_amount;
+        $credit = $sale->paid_amount;
+        $debit = $sale->net_amount;
+        $balance = $credit - $debit;
         if ($balance != 0) {
             // client account update
             $sale->client->increment('balance', $balance);
@@ -89,11 +87,11 @@ class SaleController extends Controller
         $sale->clientAccountTransaction()->create([
             'user_id' => auth()->user()->id,
             'client_id' => $sale->client_id,
-            'credit' => $sale->net_amount,
-            'debit' => $sale->paid_amount,
+            'credit' => $credit,
+            'debit' => $debit,
             'balance' => $balance,
             'balance_after' => $sale->client->fresh()->balance,
-            'description' => 'Sale Remaining Amount, Invoice #: ' . $sale->invoice_number,
+            'description' => 'Sale Return Remaining Amount, Invoice #: ' . $sale->invoice_number,
         ]);
     }
 
@@ -118,7 +116,7 @@ class SaleController extends Controller
             ]);
             // stock update
 //            $queriedItem->decrement('quantity', $item['qty']);
-            (new StockManageService())->decreaseStock($queriedItem, $request->warehouse_id, $item['qty'], $sale);
+            (new StockManageService())->increaseStock($queriedItem, $request->warehouse_id, $item['qty'], $sale);
             $total += $totalPrice;
         }
         return $total;

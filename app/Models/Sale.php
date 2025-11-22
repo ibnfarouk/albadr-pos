@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\SaleTypeEnum;
 use Illuminate\Database\Eloquent\Model;
 
 class Sale extends Model
@@ -11,7 +12,11 @@ class Sale extends Model
     public $timestamps = true;
     protected $fillable = array(
         'total', 'discount', 'discount_type', 'shipping_cost', 'net_amount', 'paid_amount', 'remaining_amount',
-        'invoice_number', 'payment_type', 'client_id', 'safe_id', 'warehouse_id', 'user_id');
+        'invoice_number', 'payment_type', 'client_id', 'safe_id', 'warehouse_id', 'user_id', 'type');
+
+    protected $casts = [
+        'type' => SaleTypeEnum::class
+    ];
 
     public function safeTransactions()
     {

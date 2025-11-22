@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Enums\SaleTypeEnum;
 use App\Enums\UserStatusEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -54,6 +55,11 @@ class User extends Authenticatable
 
     public function sales(): User|HasMany
     {
-        return $this->hasMany(Sale::class);
+        return $this->hasMany(Sale::class)->where('type', SaleTypeEnum::sale->value);
+    }
+
+    public function returns(): User|HasMany
+    {
+        return $this->hasMany(Sale::class)->where('type', SaleTypeEnum::return->value);
     }
 }

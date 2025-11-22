@@ -49,6 +49,29 @@
                         </ul>
                     </li>
                 @endcan
+                <li class="nav-item @if(request()->is('admin/return/*')) menu-open @endif">
+                    <a href="#" class="nav-link active">
+                        <i class="nav-icon fas fa-chart-line"></i>
+                        <p>
+                            @lang('trans.returns')
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.returns.create') }}" class="nav-link @if(request()->routeIs('admin.returns.create')) active @endif">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Create sale return</p>
+                            </a>
+                        </li>
+                        {{--                        <li class="nav-item">--}}
+                        {{--                            <a href="#" class="nav-link">--}}
+                        {{--                                <i class="far fa-circle nav-icon"></i>--}}
+                        {{--                                <p>Inactive Page</p>--}}
+                        {{--                            </a>--}}
+                        {{--                        </li>--}}
+                    </ul>
+                </li>
                 <li class="nav-item">
                     <a href="{{ route('admin.users.index') }}" class="nav-link">
                         <i class="nav-icon fas fa-users"></i>
