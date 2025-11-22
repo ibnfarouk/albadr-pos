@@ -26,6 +26,14 @@ use Illuminate\Support\Facades\DB;
 
 class SaleController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:list-Sale')->only(['index']);
+        $this->middleware('can:create-Sale')->only(['create', 'store']);
+        $this->middleware('can:edit-Sale')->only(['edit', 'update']);
+        $this->middleware('can:delete-Sale')->only(['destroy']);
+    }
+
     /**
      * @return Factory|View|\Illuminate\View\View
      */
