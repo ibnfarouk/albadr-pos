@@ -5,13 +5,14 @@ namespace App\Models;
 use App\Enums\ClientRegistrationEnum;
 use App\Enums\ClientStatusEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Sanctum\HasApiTokens;
 
-class Client extends Model
+class Client extends User
 {
-    use HasFactory;
+    use HasFactory, HasApiTokens;
 
     protected $table = 'clients';
     public $timestamps = true;

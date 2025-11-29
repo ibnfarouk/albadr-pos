@@ -1,4 +1,2 @@
-- delete return migrations & model
-- add type to Sale [sale , return]
-- modify sales
-- create return files
+# API
+- 
