@@ -2,6 +2,7 @@
 
 
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\ReturnController;
 use App\Http\Controllers\Admin\SaleController;
 use App\Http\Controllers\Admin\Settings\GeneralSettingsController;
@@ -40,6 +41,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         Route::group(['prefix' => 'settings'], function () {
             Route::get('general', [GeneralSettingsController::class, 'view'])->name('settings.general.view');
             Route::put('general', [GeneralSettingsController::class, 'update'])->name('settings.general.update');
+        });
+
+        Route::group(['prefix' => 'reports'], function () {
+            Route::get('item-transactions', [ReportController::class, 'itemTransactions'])->name('reports.item_transactions');
         });
     });
 });

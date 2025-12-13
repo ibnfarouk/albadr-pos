@@ -10,7 +10,7 @@ return [
     'active' => 'Active',
     'inactive' => 'Inactive',
     'status' => 'Status',
-    
+
     // Categories
     'categories' => 'Categories',
     'categories_list' => 'Categories List',
@@ -30,7 +30,7 @@ return [
     'choose_new_file' => 'Choose New File',
     'leave_empty_keep_current' => 'Leave empty to keep current image.',
     'items_in_category' => 'Items in Category',
-    
+
     // General
     'name' => 'Name',
     'image' => 'Image',
@@ -50,4 +50,8 @@ return [
     'items' => 'Items',
     'currency' => 'EGP',
     'image_info' => 'Image Info',
+    'returns' => 'Returns',
+    'settings' => 'Settings',
+    'reports' => 'Reports',
+    'item_transactions' => 'Item Transactions',
 ];
